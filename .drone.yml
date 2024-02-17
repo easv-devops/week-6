@@ -6,7 +6,7 @@ steps:
   - name: code-analysis
     image: boulundeasv/dotnet-sdk-with-java
     commands:
-      - cd backend
+      - cd backend/api
       - apt-get update && apt-get install -y nodejs npm
       - dotnet sonarscanner begin
         /k:"easv-devops_week-6_AY229vUCEVvRW2O60D_x"
