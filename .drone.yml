@@ -1,0 +1,18 @@
+kind: pipeline
+type: docker
+name: integration
+
+steps:
+  - name: code-analysis
+    image: boulundeasv/dotnet-sdk-with-java
+    commands:
+      - apt-get update && apt-get install -y nodejs npm
+      - dotnet sonarscanner begin
+        /k:"easv-devops_week-6_AY229vUCEVvRW2O60D_x"
+        /d:sonar.host.url="http://sonar.setgo.dk:9000"
+        /d:sonar.token="sqp_3232ef1fdd85f42bbb4cc5046df611df9e30b9a6"
+        /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+        /d:sonar.qualitygate.wait=true
+      - dotnet build --no-incremental
+      - dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
+      - dotnet sonarscanner end /d:sonar.token="sqp_3232ef1fdd85f42bbb4cc5046df611df9e30b9a6"
